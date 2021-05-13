@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  ica-0:
+    image: "cosmos/interchain-accounts"
+    environment: 
+      MNEMONIC: "alley afraid soup fall idea toss can goose become valve initial strong forward bright dish figure check leopard decide warfare hub unusual join cart"
+    ports:
+      - "1316:1316"
+      - "9090:9090"
+      - "26656:26656"
+      - "26657:26657"
+      - "26658:26658"
+    networks:
+      - ica-docker
+    volumes:
+      - ./data/ica-0:/home/ica/.ica:Z
+
+  ica-1:
+    image: "cosmos/interchain-accounts"
+    environment: 
+      MNEMONIC: "record gift you once hip style during joke field prize dust unique length more pencil transfer quit train device arrive energy sort steak upset"
+    ports:
+      - "1317:1316"
+      - "9091:9090"
+      - "27656:26656"
+      - "27657:26657"
+      - "27658:26658"
+    networks:
+      - ica-docker
+    volumes:
+      - ./data/ica-1:/home/ica/.ica:Z
+
+networks:
+  ica-docker:

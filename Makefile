@@ -57,3 +57,15 @@ kill-dev:
 	@echo "Killing icad and removing previous data"
 	rm -rf ./data
 	-@killall icad 2>/dev/null
+
+###############################################################################
+###                           Docker                                        ###
+###############################################################################
+
+docker-build:
+		@echo "--> Building Docker image - cosmos/interchain-accounts"
+		$(DOCKER) build -t cosmos/interchain-accounts .
+
+docker-run:
+		@echo "--> Starting Docker container - cosmos/interchain-accounts"
+		$(DOCKER) run --name ica cosmos/interchain-accounts

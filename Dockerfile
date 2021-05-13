@@ -1,14 +1,21 @@
-# Compile
-FROM golang:alpine AS builder
-WORKDIR /src/app/
-COPY go.mod go.sum* ./
+FROM golang:1.15.11-alpine
+
+WORKDIR /home/ica
+
+COPY go.mod . 
+COPY go.sum .
+
 RUN go mod download
+
 COPY . .
-RUN for bin in cmd/*; do CGO_ENABLED=0 go build -o=/usr/local/bin/$(basename $bin) ./cmd/$(basename $bin); done
 
+RUN for bin in cmd/*; do \ 
+        go install ./cmd/$(basename $bin); \ 
+    done
 
-# Add to a distroless container
-FROM gcr.io/distroless/base
-COPY --from=builder /usr/local/bin /usr/local/bin
-USER nonroot:nonroot
-CMD ["icad start"]
+RUN addgroup ica && \
+    adduser -S -G ica ica -h /home/ica
+
+USER ica:ica
+
+ENTRYPOINT [ "./scripts/docker-entrypoint.sh" ]
